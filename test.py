@@ -1,24 +1,42 @@
-from bottle import Bottle, route, request, run
+from bottle import Bottle, route, request, static_file, run
+import lyricwikia
+from gtts import gTTS
+from tempfile import TemporaryFile
+import random
+import os
 
+'''
+@route('/login', method='POST')
+def do_login():
+    name = request.forms.get('name')
+    artist = request.forms.get('artist')
+    lyrics = lyricwikia.get_lyrics(artist, name)
+    tts = gTTS(text=lyrics, lang='en', slow=False)
+    f = TemporaryFile()
+    tts.write_to_fp(f)
+    audio(random.randrange(999))
+'''
 
-@route('/login')
-def login():
+@route('/audio')
+def audio():
     return '''
-        <form action="/login" method="post">
-            Username: <input name="username" type="text" />
-            Password: <input name="password" type="password" />
-            <input value="Login" type="submit" />
+        <form action="/audio" method="post">
+            Song Name: <input name="name" type="text" />
+            Song Artist: <input name="artist" type="text" />
+            <input value="Submit" type="submit" />
         </form>
     '''
 
-@route('/login', method='POST')
-def do_login():
-    username = request.forms.get('username')
-    password = request.forms.get('password')
-    if check_login(username, password):
-        return "<p>Your login information was correct.</p>"
-    else:
-        return "<p>Login failed.</p>"
+@route('/audio', method='POST')
+def getaudio():
+    name = request.forms.get('name')
+    artist = request.forms.get('artist')
+    lyrics = lyricwikia.get_lyrics(artist, name)
+    tts = gTTS(text=lyrics, lang='en', slow=False)
+    filename = str(random.randrange(999)) + '.mp3'
+    tts.save(filename)
+    return static_file(filename, root=filename, mimetype='audio/mpeg')
+    os.remove(filename)
 
 def check_login(username, password):
     if(username=="username" and password=="password"):
