@@ -15,7 +15,7 @@ def css(filepath):
 @route('/')
 def main():
     return '''
-        <form action="/audio/{0} "method="post">
+        <form action="/getlyric "method="post">
             Song Name: <input name="name" type="text" />
             Song Artist: <input name="artist" type="text" />
             <input value="Submit" type="submit" />
@@ -23,7 +23,7 @@ def main():
     '''.format(filename)
 
 
-@route('/audio/' + filename, method='POST')
+@route('/getlyric', method='POST')
 def getaudio():
     name = request.forms.get('name')
     artist = request.forms.get('artist')
@@ -31,7 +31,6 @@ def getaudio():
     tts = gTTS(text=lyrics, lang='en', slow=False)
     tts.save('./audio/' + filename)
     return static_file('./audio/' + filename, root='./audio/' + filename, mimetype='audio/mpeg')
-    # os.remove('./audio/' + filename)
 
 
 run(host='localhost', port=8080, debug=True)
