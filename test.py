@@ -1,31 +1,37 @@
-from bottle import Bottle, route, request, static_file, get, run
+from bottle import route, request, static_file, get, run
 import lyricwikia
 from gtts import gTTS
-from tempfile import TemporaryFile
 import random
 import os
-import time
+
+filename = str(random.randrange(999)) + ".mp3"
+
+
+@get("/static/css/<filepath:re:.*\.css>")
+def css(filepath):
+    return static_file(filepath, root="css")
 
 
 @route('/')
-def audio():
+def main():
     return '''
-        <form action="/mada.mp3"method="post">
+        <form action="/audio/{0} "method="post">
             Song Name: <input name="name" type="text" />
             Song Artist: <input name="artist" type="text" />
             <input value="Submit" type="submit" />
         </form>
-    '''
+    '''.format(filename)
 
 
-@route('/<filename>', method='POST')
-def getaudio(filename):
+@route('/audio/' + filename, method='POST')
+def getaudio():
     name = request.forms.get('name')
     artist = request.forms.get('artist')
     lyrics = lyricwikia.get_lyrics(artist, name)
     tts = gTTS(text=lyrics, lang='en', slow=False)
-    tts.save('./file.mp3')
-    return static_file(filename, root='./file.mp3', mimetype='audio/mpeg')
+    tts.save('./audio/' + filename)
+    return static_file('./audio/' + filename, root='./audio/' + filename, mimetype='audio/mpeg')
+    # os.remove('./audio/' + filename)
 
 
 run(host='localhost', port=8080, debug=True)
