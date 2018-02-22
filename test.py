@@ -6,12 +6,6 @@ import os
 
 filename = str(random.randrange(999)) + ".mp3"
 
-
-@get("/static/css/<filepath:re:.*\.css>")
-def css(filepath):
-    return static_file(filepath, root="css")
-
-
 @route('/')
 def main():
     return '''
@@ -20,8 +14,7 @@ def main():
             Song Artist: <input name="artist" type="text" />
             <input value="Submit" type="submit" />
         </form>
-    '''.format(filename)
-
+    '''
 
 @route('/getlyric', method='POST')
 def getaudio():
@@ -30,7 +23,15 @@ def getaudio():
     lyrics = lyricwikia.get_lyrics(artist, name)
     tts = gTTS(text=lyrics, lang='en', slow=False)
     tts.save('./audio/' + filename)
-    return static_file('./audio/' + filename, root='./audio/' + filename, mimetype='audio/mpeg')
+    return '''<meta http-equiv="refresh" content="0; url=/audio/'''+filename+'''" />'''
+
+@get("/audio/<filepath:re:.*\.mp3>")
+def giveaudio(filepath):
+    return static_file(filepath, root="audio/")
+
+'''@route('/{}'.format(path))
+def giveaudio():
+'''
 
 
 run(host='localhost', port=8080, debug=True)
