@@ -8,13 +8,11 @@ filename = str(random.randrange(999)) + ".mp3"
 
 @route('/')
 def main():
-    return '''
-        <form action="/getlyric "method="post">
-            Song Name: <input name="name" type="text" />
-            Song Artist: <input name="artist" type="text" />
-            <input value="Submit" type="submit" />
-        </form>
-    '''
+    return static_file("index.html", root="./")
+
+@get("/<filepath:re:.*\.css>")
+def css(filepath):
+    return static_file(filepath, root="./")
 
 @route('/getlyric', method='POST')
 def getaudio():
@@ -28,10 +26,5 @@ def getaudio():
 @get("/audio/<filepath:re:.*\.mp3>")
 def giveaudio(filepath):
     return static_file(filepath, root="audio/")
-
-'''@route('/{}'.format(path))
-def giveaudio():
-'''
-
 
 run(host='localhost', port=8080, debug=True)
