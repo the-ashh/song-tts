@@ -18,11 +18,14 @@ def css(filepath):
 def getaudio():
     name = request.forms.get('name')
     artist = request.forms.get('artist')
-    lyrics = lyricwikia.get_lyrics(artist, name)
-    tts = gTTS(text=lyrics, lang='en', slow=False)
-    filename = name + "_" + artist + ".mp3"
-    tts.save("./audio/" + filename)
-    return '''<meta http-equiv="refresh" content="0; url=/audio/'''+filename+'''" />'''
+    filename = (name + "_" + artist + ".mp3").lower()
+    if os.path.isfile('./audio/' + filename) == True:
+        return '''<meta http-equiv="refresh" content="0; url=/audio/''' + filename + '''" />'''
+    else:
+        lyrics = lyricwikia.get_lyrics(artist, name)
+        tts = gTTS(text=lyrics, lang='en', slow=False)
+        tts.save("./audio/" + filename)
+        return '''<meta http-equiv="refresh" content="0; url=/audio/''' + filename + '''" />'''
 
 @get("/audio/<filepath:re:.*\.mp3>")
 def giveaudio(filepath):
