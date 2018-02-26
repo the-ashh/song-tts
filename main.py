@@ -4,7 +4,7 @@ from gtts import gTTS
 import random
 import os
 
-filename = str(random.randrange(999)) + ".mp3"
+# filename = str(random.randrange(999)) + ".mp3"
 
 @route('/')
 def main():
@@ -20,7 +20,8 @@ def getaudio():
     artist = request.forms.get('artist')
     lyrics = lyricwikia.get_lyrics(artist, name)
     tts = gTTS(text=lyrics, lang='en', slow=False)
-    tts.save('./audio/' + filename)
+    filename = name + "_" + artist + ".mp3"
+    tts.save("./audio/" + filename)
     return '''<meta http-equiv="refresh" content="0; url=/audio/'''+filename+'''" />'''
 
 @get("/audio/<filepath:re:.*\.mp3>")
