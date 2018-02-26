@@ -1,10 +1,7 @@
 from bottle import route, request, static_file, get, run
 import lyricwikia
 from gtts import gTTS
-import random
 import os
-
-# filename = str(random.randrange(999)) + ".mp3"
 
 @route('/')
 def main():
