@@ -1,18 +1,45 @@
+<!DOCTYPE html>
 <html>
 <head>
   <title>song to tts</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-red.min.css" />
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 <body>
-  <form action="/getlyric "method="post">
-    song name: <input name="name" type="text">
-    <br>
-    <br>
-    song artist: <input name="artist" type="text">
-    <br>
-    <br>
-    <button type="submit">convert that song</button>
-  </form>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">song-tts</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">song-tts</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="https://github.com/cooler9711">github (cooler9711)</a>
+      <a class="mdl-navigation__link" href="https://github.com/cooler9711/song-tts">github (this project)</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content"><form action="/getlyric "method="post">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" name="name">
+        <label class="mdl-textfield__label" for="sample3">song name</label>
+      </div>
+      <br>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" name="artist">
+        <label class="mdl-textfield__label" for="sample3">song artist</label>
+      </div>
+      <br>
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">convert that song</button>
+    </form>
+  </div>
+  </main>
+</div>
 </body>
-</heml>
+</html>
