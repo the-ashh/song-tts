@@ -20,14 +20,14 @@ def getaudio():
     artist = request.forms.get('artist')
     filename = (name + "_" + artist + ".mp3").lower()
     if os.path.isfile('./audio/' + filename):
-        return ('''<meta http-equiv="refresh" content="0; url=/audio/'''
-                + filename + '''" />''')
+        return ('''<meta http-equiv="refresh" content="0; url=/audio/''' +
+                filename + '''" />''')
     else:
         lyrics = lyricwikia.get_lyrics(artist, name)
         tts = gTTS(text=lyrics, lang='en', slow=False)
         tts.save("./audio/" + filename)
-        return ('''<meta http-equiv="refresh" content="0; url=/audio/'''
-                + filename + '''" />''')
+        return ('''<meta http-equiv="refresh" content="0; url=/audio/''' +
+                filename + '''" />''')
 
 
 @get("/audio/<filepath:re:.*\.mp3>")
