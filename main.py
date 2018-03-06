@@ -18,7 +18,7 @@ def css(filepath):
 def getaudio():
     name = request.forms.get('name')
     artist = request.forms.get('artist')
-    filename = (name + "_" + artist + ".mp3").lower()
+    filename = ((name + "_" + artist + ".mp3").lower()).replace(" ", "")
     if os.path.isfile('./audio/' + filename):
         return ('''<meta http-equiv="refresh" content="0; url=/audio/''' +
                 filename + '''" />''')
