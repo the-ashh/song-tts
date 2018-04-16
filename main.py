@@ -2,7 +2,7 @@ from bottle import route, request, static_file, get, run
 import lyricwikia
 from gtts import gTTS
 import os
-import json
+#import json
 
 
 @route('/')
@@ -27,12 +27,12 @@ def getaudio():
     return ('''<meta http-equiv="refresh" content="0; url=/audio/''' +
             filename + '''" />''')
 
-@route('/assistant', method='POST')
-def assistant():
-    data = request.json
-    obj = json.load(data)
-    artist = obj["inputs"][0]["rawInputs"][0]["query"]
-    return(artist)
+#@route('/assistant', method='POST')
+#def assistant():
+#    data = request.json
+#    obj = json.load(data)
+#    artist = obj["inputs"][0]["rawInputs"][0]["query"]
+#    return(artist)
 
 
 @get("/audio/<filepath:re:.*\.mp3>")
